@@ -8,10 +8,8 @@ compile for windows using the build.bat script or through visual studio
 
 ## usage (windows)
 
-add CPlusPlus TOP and select sop2top.dll
-
-drag SOP to the sop input field under "custom" 
-
+- add CPlusPlus TOP and select sop2top.dll
+- drag SOP to the sop input field under "custom" 
 
 ## missing
 - OSX build
