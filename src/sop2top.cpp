@@ -85,7 +85,6 @@ Sop2Top::Sop2Top(const OP_NodeInfo* info, TOP_Context* context) :
 	myFrameQueue(context)
 {
 	myExecuteCount = 0;
-	myStep = 0.0;
 }
 
 Sop2Top::~Sop2Top()
@@ -104,12 +103,12 @@ Sop2Top::execute(TOP_Output* output, const OP_Inputs* inputs, void* reserved1)
 	myExecuteCount++;
 
 	const OP_SOPInput *sop = inputs->getParSOP("Sop");
-	if(sop != NULL) {
-		myPointCount = sop->getNumPoints();
-	}
+	// if(sop != NULL) {
+	// }
 
 	if(sop != NULL) {
 		const Position *points = sop->getPointPositions();
+		int pointCount = sop->getNumPoints();
 
 		TOP_UploadInfo info;
 		info.textureDesc.texDim = OP_TexDim::e2D;
@@ -133,7 +132,7 @@ Sop2Top::execute(TOP_Output* output, const OP_Inputs* inputs, void* reserved1)
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
 					float* pixel = &mem[4*(y*width + x)];
-					if (i < myPointCount) {
+					if (i < pointCount) {
 						pixel[0] = points[i].x;
 						pixel[1] = points[i].y;
 						pixel[2] = points[i].z;
@@ -165,20 +164,6 @@ Sop2Top::getNumInfoCHOPChans(void *reserved1)
 void
 Sop2Top::getInfoCHOPChan(int32_t index, OP_InfoCHOPChan* chan, void* reserved1)
 {
-	// This function will be called once for each channel we said we'd want to return
-	// In this example it'll only be called once.
-
-	if (index == 0)
-	{
-		chan->name->setString("executeCount");
-		chan->value = (float)myExecuteCount;
-	}
-
-	if (index == 1)
-	{
-		chan->name->setString("step");
-		chan->value = (float)myStep;
-	}
 }
 
 bool		
@@ -227,12 +212,6 @@ Sop2Top::getInfoDATEntries(int32_t index,
 		strlcpy(tempBuffer, "step", sizeof(tempBuffer));
 #endif
 		entries->values[0]->setString(tempBuffer);
-
-#ifdef _WIN32
-		sprintf_s(tempBuffer, "%g", myStep);
-#else // macOS
-		snprintf(tempBuffer, sizeof(tempBuffer), "%g", myStep);
-#endif
 		entries->values[1]->setString(tempBuffer);
 	}
 
@@ -244,13 +223,6 @@ Sop2Top::getInfoDATEntries(int32_t index,
 		strlcpy(tempBuffer, "points", sizeof(tempBuffer));
 #endif
 		entries->values[0]->setString(tempBuffer);
-
-#ifdef _WIN32
-		sprintf_s(tempBuffer, "%d", myPointCount);
-#else // macOS
-		snprintf(tempBuffer, sizeof(tempBuffer), "%d", myPointCount);
-#endif
-		entries->values[1]->setString(tempBuffer);
 	}
 }
 
