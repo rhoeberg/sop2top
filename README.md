@@ -1,4 +1,4 @@
-# SOP2TOP
+# SOP2TOP (touchdesigner plugin)
 
 a very straight forward implementation of SOP2TOP which avoids the user having to first convert to CHOP and therefore gives a significant performance increase.
 
