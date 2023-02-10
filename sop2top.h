@@ -63,10 +63,6 @@ private:
 	int					myExecuteCount;
 
 	std::mutex			mySettingsLock;
-	double				myStep;
-	double				mySpeed;
-	double				myBrightness;
-	int                 myPointCount;
 
 	// Used for threading example
 	// Search for #define THREADING_EXAMPLE to enable that example
